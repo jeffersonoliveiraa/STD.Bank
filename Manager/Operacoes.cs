@@ -1,95 +1,106 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 
 namespace STD.Bank.Manager
 {
-    class Operacoes
+    public class Operacoes
     {
-		static List<Conta> listContas = new List<Conta>();
-		public static void Depositar()
+		public static void AlterCredt()
 		{
 			Console.Write("Digite o número da conta: ");
 			int indiceConta = int.Parse(Console.ReadLine());
 
 			Console.Write("Digite o valor a ser depositado: ");
-			double valorDeposito = double.Parse(Console.ReadLine());
+			double valorAumento = double.Parse(Console.ReadLine());
 
-			listContas[indiceConta].Depositar(valorDeposito);
+			Program.listContas[indiceConta].AlmentarSaldo(valorAumento);
 		}
 
-		public static void Sacar()
+		public static void Comprar()
 		{
 			Console.Write("Digite o número da conta: ");
-			int indiceConta = int.Parse(Console.ReadLine());
+			string NumeroConta = (Console.ReadLine());
 
-			Console.Write("Digite o valor a ser sacado: ");
-			double valorSaque = double.Parse(Console.ReadLine());
+			if (Program.listContas.Where(x => x.NumConta == NumeroConta).FirstOrDefault() == null)
+			{
+				Console.WriteLine("Conta inexistente");
+			}
+			else
+			{
+				Console.Write("Digite o valor da compra: ");
+				double valorCompra = double.Parse(Console.ReadLine());
 
-			listContas[indiceConta].Sacar(valorSaque);
+			Program.listContas.Where(x => x.NumConta == NumeroConta).FirstOrDefault().InserirCompra(valorCompra);
+			}
+
 		}
 
-		public static void Transferir()
+		public static void SaldoDevedor()
 		{
-			Console.Write("Digite o número da conta de origem: ");
-			int indiceContaOrigem = int.Parse(Console.ReadLine());
+			Console.Write("Digite o número da conta: ");
+			string NumeroConta = (Console.ReadLine());
 
-			Console.Write("Digite o número da conta de destino: ");
-			int indiceContaDestino = int.Parse(Console.ReadLine());
+			var conta = Program.listContas.Where(x => x.NumConta == NumeroConta).FirstOrDefault();
 
-			Console.Write("Digite o valor a ser transferido: ");
-			double valorTransferencia = double.Parse(Console.ReadLine());
-
-			listContas[indiceContaOrigem].Transferir(valorTransferencia, listContas[indiceContaDestino]);
+			if(conta == null)
+            {
+				Console.WriteLine("Conta inexistente");
+            }
+            else
+            {
+                foreach (var item in conta.Extrato)
+                {
+					Console.WriteLine($"Compra de {item}");
+				}
+            }
 		}
 
 		public static void InserirConta()
 		{
 			Console.WriteLine("Inserir nova conta");
 
-			Console.WriteLine("Qual seria sua instituição de ensino: ");
-			Console.WriteLine("Escolha entre nossas instituições parceiras!!");
+			Console.WriteLine("Escolha a instituição onde a cantina está localizada");
 			Console.WriteLine("UFC = 1 | Estacio = 2 | Unichristus = 3 | UECE = 4 ");
+			Console.WriteLine("Qual seria a instituição de ensino do aluno: ");
 			int NomeInstituicao = int.Parse(Console.ReadLine());
 
-			Console.Write("Digite o Nome do Cliente: ");
+			Console.Write("Digite o Nome do aluno: ");
 			string entradaNome = Console.ReadLine();
 
-			Console.Write("Digite o saldo inicial: ");
-			double entradaSaldo = double.Parse(Console.ReadLine());
-
-			Console.Write("Digite o crédito: ");
-			double entradaCredito = double.Parse(Console.ReadLine());
-
-			Console.Write("Digite o CPF do cliente: ");
+			Console.Write("Digite o CPF do aluno: ");
 			string entradaCPF = Console.ReadLine();
 
+			Console.Write("Digite o crédito inicial do aluno: ");
+			double entradaCredito = double.Parse(Console.ReadLine());
+
+
 			Conta novaConta = new Conta(instituicao: (Instituicao)NomeInstituicao,
-										saldo: entradaSaldo,
 										credito: entradaCredito,
 										nome: entradaNome,
-										cpf: entradaCPF);
+										cpf: entradaCPF,
+										(Program.listContas.Count +1).ToString());
 
-			listContas.Add(novaConta);
+			Program.listContas.Add(novaConta);
 		}
 
 		public static void ListarContas()
 		{
 			Console.WriteLine("Listar contas");
 
-			if (listContas.Count == 0)
+			if (Program.listContas.Count == 0)
 			{
 				Console.WriteLine("Nenhuma conta cadastrada.");
 				return;
 			}
 
-			for (int i = 0; i < listContas.Count; i++)
-			{
-				Conta conta = listContas[i];
-				Console.Write("#{0} - ", i);
-				Console.WriteLine(conta);
-			}
+            foreach (var item in Program.listContas)
+            {
+				Console.WriteLine($"Numero da conta: {item.NumConta} | Nome: {item.Nome} | CPF: {item.CPF} | Credito: {item.Credito}");
+            }
+
 		}
 			
 	}

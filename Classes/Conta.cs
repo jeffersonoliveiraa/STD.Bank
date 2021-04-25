@@ -1,63 +1,63 @@
 using System;
+using System.Collections.Generic;
 
 namespace STD.Bank
 {
 	public class Conta
 	{
 		// Atributos
-		private Instituicao Instituicao { get; set; }
-		private double Saldo { get; set; }
-		private double Credito { get; set; }
-		private string Nome { get; set; }
-		private string CPF { get; set; }
+		public Instituicao Instituicao { get; set; }
+		public double Credito { get; set; }
+		public string Nome { get; set; }
+		public string CPF { get; set; }
+		public string NumConta { get; set; }
+		public List<double> Extrato { get; set; }
 
 		// Métodos
-		public Conta(Instituicao instituicao, double saldo, double credito, string nome, string cpf)
+		public Conta(Instituicao instituicao, double credito, string nome, string cpf, string numConta)
 		{
 			this.Instituicao = instituicao;
-			this.Saldo = saldo;
 			this.Credito = credito;
 			this.Nome = nome;
 			this.CPF = cpf;
+			this.NumConta = numConta;
+			this.Extrato = new List<double> ();
+			Console.WriteLine($"Conta criada com o numero: {numConta}");
 		}
 
-		public bool Sacar(double valorSaque)
+		public bool InserirCompra(double valorCompra)
 		{
             // Validação de saldo suficiente
-            if (this.Saldo - valorSaque < (this.Credito *-1)){
+            if (this.Credito - valorCompra < (this.Credito *-1)){
                 Console.WriteLine("Saldo insuficiente!");
                 return false;
             }
-            this.Saldo -= valorSaque;
+            this.Credito -= valorCompra;
+			this.Extrato.Add(valorCompra);
 
-            Console.WriteLine("Saldo atual da conta de {0} é {1}", this.Nome, this.Saldo);
+            Console.WriteLine("Credito atual do aluno {0} é {1}", this.Nome, this.Credito);
             // https://docs.microsoft.com/pt-br/dotnet/standard/base-types/composite-formatting
 
             return true;
 		}
 
-		public void Depositar(double valorDeposito)
+		public void AlmentarSaldo(double almentoLimite)
 		{
-			this.Saldo += valorDeposito;
+			this.Credito += almentoLimite;
 
-            Console.WriteLine("Saldo atual da conta de {0} é {1}", this.Nome, this.Saldo);
+            Console.WriteLine("Saldo atual da conta de {0} é {1}", this.Nome, this.Credito);
 		}
 
-		public void Transferir(double valorTransferencia, Conta contaDestino)
-		{
-			if (this.Sacar(valorTransferencia)){
-                contaDestino.Depositar(valorTransferencia);
-            }
-		}
+		//public Debito()
 
-        public override string ToString()
+		public override string ToString()
 		{
             string retorno = "";
             retorno += "Instituição " + this.Instituicao + " | ";
             retorno += "Nome " + this.Nome + " | ";
 			retorno += "CPF" + this.CPF + " | ";
-            retorno += "Saldo " + this.Saldo + " | ";
-            retorno += "Crédito " + this.Credito;
+            retorno += "Crédito " + this.Credito + " | ";
+			//retorno += "Saldo devedor" this.;
 			return retorno;
 		}
 	}

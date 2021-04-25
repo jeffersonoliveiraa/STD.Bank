@@ -6,7 +6,7 @@ namespace STD.Bank
 {
 	class Program
 	{
-		static List<Conta> listContas = new List<Conta>();
+		public static List<Conta> listContas = new List<Conta>();
 		static void Main(string[] args)
 		{
 			string opcaoUsuario = ObterOpcaoUsuario();
@@ -16,19 +16,19 @@ namespace STD.Bank
 				switch (opcaoUsuario)
 				{
 					case "1":
-						Operacoes.ListarContas();
-						break;
-					case "2":
 						Operacoes.InserirConta();
 						break;
+					case "2":
+						Operacoes.ListarContas();
+						break;
 					case "3":
-						Operacoes.Transferir();
+						Operacoes.Comprar();
 						break;
 					case "4":
-						Operacoes.Sacar();
+						Operacoes.SaldoDevedor();
 						break;
 					case "5":
-						Operacoes.Depositar();
+						Operacoes.AlterCredt();
 						break;
                     case "C":
 						Console.Clear();
@@ -52,11 +52,11 @@ namespace STD.Bank
 			Console.WriteLine("Student Bank a seu dispor!!!");
 			Console.WriteLine("Informe a opção desejada:");
 
-			Console.WriteLine("1- Listar contas");
-			Console.WriteLine("2- Inserir nova conta");
-			Console.WriteLine("3- Transferir");
-			Console.WriteLine("4- Sacar");
-			Console.WriteLine("5- Depositar");
+			Console.WriteLine("1- Inserir novo aluno");
+			Console.WriteLine("2- Listar Alunos");
+			Console.WriteLine("3- Inserir compra");
+			Console.WriteLine("4- Verificar saldo devedor do aluno");
+			Console.WriteLine("5- Alterar credito");
             Console.WriteLine("C- Limpar Tela");
 			Console.WriteLine("X- Sair");
 			Console.WriteLine();
