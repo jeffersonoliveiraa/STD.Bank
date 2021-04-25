@@ -53,7 +53,7 @@ namespace STD.Bank.Manager
             {
                 foreach (var item in conta.Extrato)
                 {
-					Console.WriteLine($"Compra de {item}");
+					Console.WriteLine($"Saldo devedor total é de: R$ {item}");
 				}
             }
 		}
@@ -98,7 +98,7 @@ namespace STD.Bank.Manager
 
             foreach (var item in Program.listContas)
             {
-				Console.WriteLine($"Numero da conta: {item.NumConta} | Nome: {item.Nome} | CPF: {item.CPF} | Credito: {item.Credito}");
+				Console.WriteLine($"Numero da conta: {item.NumConta} | Nome: {item.Nome} | CPF: {item.CPF} | Credito Disponível: R${item.Credito}");
             }
 
 		}
